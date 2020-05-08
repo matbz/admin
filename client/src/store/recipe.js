@@ -8,6 +8,8 @@ const SET_RECIPE = 'SET_RECIPE';
 const SET_STEPS = 'SET_STEPS';
 const SET_INGREDIENTGROUPS = 'SET_INGREDIENTGROUPS';
 const SET_INGREDIENTS = 'SET_INGREDIENTS';
+const SET_IG = 'SET_IG';
+const ADD_TO_REFRESH = 'ADD_TO_REFRESH';
 
 const recipe = {
   namespaced: false,
@@ -15,7 +17,9 @@ const recipe = {
     recipes: {},
     steps: [],
     ingredientGroups: [],
-    ingredients: []
+    ingredients: [],
+    refresh: 0,
+    selectedIG: {}
   },
   mutations: {
     SET_RECIPE(state, data) {
@@ -30,6 +34,12 @@ const recipe = {
     SET_INGREDIENTS(state, data) {
       state.ingredients = data;
     },
+    SET_IG(state, data) {
+      state.selectedIG = data;
+    },
+    ADD_TO_REFRESH(state, data) {
+      state.refresh++;
+    }
   },
   actions: {
     async getRecipe({ commit }, id) {
@@ -63,6 +73,12 @@ const recipe = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    refresh({ commit }) {
+      commit(ADD_TO_REFRESH);
+    },
+    async setIG({ commit }, data) {
+      commit(SET_IG, data);
     }
   },
   getters: {
@@ -77,6 +93,12 @@ const recipe = {
     },
     steps(state) {
       return state.steps;
+    },
+    refresh(state) {
+      return state.refresh;
+    },
+    selectedIG(state) {
+      return state.selectedIG;
     }
   }
 };

@@ -29,6 +29,22 @@ module.exports = (app) => {
     authRequired,
     RecipeController.get);
 
+    app.get('/api/recipe/max',
+    authRequired,
+    RecipeController.getMaxId);
+
+  app.post('/api/recipes',
+    authRequired,
+    RecipeController.create);
+
+  app.put('/api/recipes/:id',
+    authRequired,
+    RecipeController.update);
+
+  app.delete('/api/recipes/:id',
+    authRequired,
+    RecipeController.delete);
+
   app.get('/api/recipecategories',
     authRequired,
     RecipeCategoryController.index);
@@ -37,13 +53,61 @@ module.exports = (app) => {
     authRequired,
     StepController.index);
 
+  app.post('/api/steps',
+    authRequired,
+    StepController.create);
+
+  app.put('/api/steps/:id',
+    authRequired,
+    StepController.update);
+
+  app.post('/api/steps/positions',
+    authRequired,
+    StepController.updatePositions);
+
+  app.delete('/api/steps/:id',
+    authRequired,
+    StepController.delete);
+
   app.get('/api/recipes/:id/ingredientgroups',
     authRequired,
     IngredientGroupController.index);
 
+  app.post('/api/ingredientgroups',
+    authRequired,
+    IngredientGroupController.create);
+
+  app.put('/api/ingredientgroups/:id',
+    authRequired,
+    IngredientGroupController.update);
+
+  app.post('/api/ingredientgroups/positions',
+    authRequired,
+    IngredientGroupController.updatePositions);
+
+  app.delete('/api/ingredientgroups/:id',
+    authRequired,
+    IngredientGroupController.delete);
+
   app.get('/api/ingredientgroups/:id/ingredients',
     authRequired,
     IngredientController.index);
+
+  app.post('/api/ingredients',
+    authRequired,
+    IngredientController.create);
+
+  app.put('/api/ingredients/:id',
+    authRequired,
+    IngredientController.update);
+
+  app.post('/api/ingredients/positions',
+    authRequired,
+    IngredientController.updatePositions);
+
+  app.delete('/api/ingredients/:id',
+    authRequired,
+    IngredientController.delete);
 
   // Users
   app.post('/api/users/login',

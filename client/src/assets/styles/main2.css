@@ -105,7 +105,7 @@ input:focus {
 }
 
 .button-cancel {
-  margin-left: 1em;
+  margin-left: 0em;
 }
 
 .button-logout {
@@ -676,4 +676,9 @@ hr { flex-basis: 100%; height: 0; margin: 0; border: 0; }
 
 .pure-table > tbody > tr:hover{
   background: rgb(218, 235, 240);
+  font-weight: 700;
+}
+
+.dhandle {
+  cursor: pointer;
 }

@@ -14,15 +14,14 @@
           <thead>
               <tr>
                   <th>Name</th>
-                  <th>Aktionen</th>
+                  <th>Löschen</th>
               </tr>
           </thead>
           <tbody>
             <tr v-for="item in recipes" :key="item.id">
-              <td style="width: 25em">{{ item.name }}</td>
+              <td @click="goToRecipe(item.id)" style="width: 25em; cursor: pointer">{{ item.name }}</td>
               <td>
-                <i class="fa fa-pencil-square-o" @click="goToRecipe(item.id)" style="margin-right: 1em"></i>
-                <i class="fa fa-trash-o" @click="deleteRecipe(item.id)"></i>
+                <i class="fa fa-trash-o" style="margin-left: 1em" @click="confirm(deleteRecipe, item.id)"></i>
               </td>
             </tr>
            </tbody>
@@ -56,16 +55,38 @@ export default {
     goToRecipe(id) {
       this.$router.push({ name: 'recipe', params: { id: id } });
     },
-    createRecipe() {
+    async createRecipe() {
+      const recipe = {
+        name: 'Rezeptname',
+        portions: 4,
+        recipecategory_id: 2
+      };
 
+      await HTTP.post('/api/recipes', recipe);
+      const response = await HTTP.get('api/recipe/max');
+      this.goToRecipe(response.data.maxid);
     },
-    deleteRecipe(id) {
-
-    }
+    async deleteRecipe(id) {
+      await HTTP.delete(`/api/recipes/${id}`);
+      this.getRecipes();
+    },
+    async getRecipes() {
+      const response = await HTTP.get('/api/recipes');
+      this.recipes = response.data;
+    },
+    confirm(func, id) {
+      this.$modal.show('dialog', {
+        title: 'Bestätigung',
+        text: 'Diesen Eintrag wirklich löschen?',
+        buttons: [
+          { title: 'Ja', handler: () => { func(id); this.$modal.hide('dialog'); } },
+          { title: 'Nein' }
+        ]
+      });
+     },
   },
-  async created() {
-    const response = await HTTP.get('/api/recipes');
-    this.recipes = response.data;
+  created() {
+    this.getRecipes();
   },
 };
 </script>

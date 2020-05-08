@@ -1,24 +1,8 @@
+MOBILE -> FIX Schritt Counter
+
 Client
 
-Neues Rezept anlegen
-Rezept löschen
-SaveRecipe() nach Update von Kopfdaten
-
-Neue Gruppe anlegen
-Neue Zutat anlegen
-Neuer Schritt anlegen
-
-Gruppe editieren
-Zutat editieren
-Schritt editieren
-
-Gruppe löschen
-Zutat löschen
-Schritt löschen
-
-Gruppe DnD
-Zutat DnD
-Schritt DnD
+Backup
 
 Tag UI
 Tag anlegen
@@ -27,29 +11,13 @@ Tag löschen
 
 Recipe_Tag hinzufügen/löschen ->  Multiselect
 
-Backup
+Bilder Support
+
 
 Server
 
-Recipe
-  Create
-  Update
-  Delete
-IngrientGroup
-  Create
-  Update
-  Delete
-  Positions
-Ingredient
-  Create
-  Update
-  Delete
-  Positions
-Steps
-  Create
-  Update
-  Delete
-  Positions
+Backup
+
 Tags
   All
   Create
@@ -59,13 +27,13 @@ Recipe_Tag
   GetByRecipeid (join tag names)
   Create
   Delete
-Backup
 
-  Mobile
 
-  FavIcon austauschen
-  API url anpassen
+Mobile
+
   Search inkl. Tags
     Searchfield (man kann tags suchen)
     Tags rechts oben im header-> TagView (global - init bei Search->created())
     List
+
+Bilder Support

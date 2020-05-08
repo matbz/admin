@@ -20,9 +20,9 @@
                 @change="saveRecipe()"
               ></span>
             <span>Kategorie:
-              <span class ="rinput" style="width: 10em; margin-left:16em">{{this.categories[recipe.recipecategory_id - 1].name}}</span>
+              <!-- <span class ="rinput" style="width: 10em; margin-left:16em">{{this.categories[recipe.recipecategory_id - 1].name}}</span> -->
                 <el-select
-                  v-model="selectedCategory"
+                  v-model="recipe.recipecategory_id"
                   class="s-rcategories rinput"
                   @change="saveRecipe">
                 <el-option
@@ -45,22 +45,16 @@
               <tr>
                   <th></th>
                   <th>Name</th>
-                  <th>Aktionen</th>
+                  <th>Entfernen</th>
                   <th>Zutaten</th>
               </tr>
           </thead>
-          <draggable v-model="list" handle=".dhandle" tag="tbody" @change="updateIGPositions()">
-            <tr :class="{ igactive: selectedIG.id === item.id }" v-for="item in ingredientGroups" :key="item.name">
-              <td><i class="fa fa-bars dhandle"></i></td>
-              <td>{{ item.name }}</td>
-              <td>
-                <i class="fa fa-pencil-square-o" @click="editIG(item.id)" style="margin-right: 1em"></i>
-                <i class="fa fa-trash-o" @click="deleteIG(item.id)"></i>
-              </td>
-              <td>
-                <i class="fa fa-eye" @click="loadI(item.id)" style="margin-left: .6em"></i>
-              </td>
-            </tr>
+          <draggable v-model="igList" handle=".dhandle" tag="tbody" @change="updateIGPositions()">
+            <ingredient-group-item
+            v-for="item in igList"
+            :item = "item"
+            :key="item.id"
+            ></ingredient-group-item>
           </draggable>
       </table>
 
@@ -75,21 +69,15 @@
                   <th>Menge</th>
                   <th>Mengeneinheit</th>
                   <th>Platzhalter</th>
-                  <th>Aktionen</th>
+                  <th>Entfernen</th>
               </tr>
           </thead>
-          <draggable v-model="list" handle=".dhandle" tag="tbody" @change="updateIPositions()">
-            <tr v-for="item in ingredients" :key="item.name">
-              <td><i class="fa fa-bars dhandle"></i></td>
-              <td>{{ item.name }}</td>
-              <td class="center">{{ Number(item.quantity).toLocaleString() }}</td>
-              <td class="center">{{ item.measurement }}</td>
-              <td class="center">{{ item.identifier }}</td>
-              <td>
-                <i class="fa fa-pencil-square-o" @click="editI(item.id)" style="margin-right: 1em"></i>
-                <i class="fa fa-trash-o" @click="deleteI(item.id)"></i>
-              </td>
-            </tr>
+          <draggable v-model="iList" handle=".dhandle" tag="tbody" @change="updateIPositions()">
+            <ingredient-item
+            v-for="item in iList"
+            :item = "item"
+            :key="item.id"
+            ></ingredient-item>
           </draggable>
       </table>
 
@@ -101,50 +89,63 @@
               <tr>
                   <th></th>
                   <th>Text</th>
-                  <th>Aktionen</th>
+                  <th>Entfernen</th>
               </tr>
           </thead>
-          <draggable v-model="list" handle=".dhandle" tag="tbody" @change="updateStepPositions()">
-            <tr v-for="item in steps" :key="item.id">
-              <td><i class="fa fa-bars dhandle"></i></td>
-              <td style="width: 45em">{{ item.step }}</td>
-              <td>
-                <i class="fa fa-pencil-square-o" @click="editStep(item.id)" style="margin-right: 1em"></i>
-                <i class="fa fa-trash-o" @click="deleteStep(item.id)"></i>
-              </td>
-            </tr>
+          <draggable v-model="stepsList" handle=".dhandle" tag="tbody" @change="updateStepPositions()">
+            <step-item
+            v-for="item in steps"
+            :item = "item"
+            :key="item.id"
+            ></step-item>
           </draggable>
       </table>
     </div>
+    <modal-add-group :recipeid="id"></modal-add-group>
+    <modal-add-ingredient></modal-add-ingredient>
+    <modal-add-step :recipeid="id"></modal-add-step>
   </div>
 </template>
 
 <script>
+// import store from '@/store';
 import { mapGetters } from 'vuex';
 import { HTTP } from '@/common/utilities';
 import draggable from 'vuedraggable';
 import RecipesListItem from './RecipesListItem';
+import StepItem from './StepItem';
+import IngredientGroupItem from './IngredientGroupItem';
+import IngredientItem from './IngredientItem';
+import ModalAddStep from './ModalAddStep';
+import ModalAddGroup from './ModalAddGroup';
+import ModalAddIngredient from './ModalAddIngredient';
+
 
 export default {
   components: {
+    draggable,
     RecipesListItem,
-    draggable
+    StepItem,
+    IngredientGroupItem,
+    IngredientItem,
+    ModalAddStep,
+    ModalAddGroup,
+    ModalAddIngredient
   },
   props: [
     'id'
   ],
+  // beforeRouteEnter(to, from, next) {
+  //   store.dispatch('getRecipe', 2).then(res => next());
+  // },
   data() {
     return {
-      selectedCategory: '',
       selectOptionsCategory: [],
-      selectedIG: {},
       categories: [],
-      list: [
-        { id: 1, name: "Abbyfffffffffffffffffffffffffffffffffffffffffffffffffff", sport: "basket" },
-        { id: 2, name: "Brooke", sport: "foot" },
-        { id: 3, name: "Courtenay", sport: "volley" },
-        { id: 4, name: "David", sport: "rugby" }
-      ],
+      recipe: {},
+      stepsList: [],
+      igList: [],
+      iList: []
     };
   },
   computed: {
@@ -152,10 +153,13 @@ export default {
       'recipes',
       'ingredientGroups',
       'steps',
-      'ingredients'
+      'ingredients',
+      'selectedIG'
     ]),
-    recipe() {
-      return this.recipes[0];
+  },
+  watch: {
+    '$store.state.recipe.refresh': function () {
+      this.getRecipe();
     }
   },
   methods: {
@@ -166,67 +170,79 @@ export default {
     },
     async getRecipe() {
       await this.$store.dispatch('getRecipe', this.id);
+      this.recipe = this.recipes[0];
       await this.$store.dispatch('getIngredientGroups', this.recipe.id);
-      await this.$store.dispatch('getSteps', this.recipe.id);
+      this.igList = this.ingredientGroups;
       await this.$store.dispatch('getIngredients', this.selectedIG.id);
+      this.iList = this.ingredients;
+      await this.$store.dispatch('getSteps', this.recipe.id);
+      this.stepsList = this.steps;
     },
     createIG() {
-
+      this.$modal.show('add-group-modal');
     },
-    updateIG(igid) {
+    async updateIGPositions() {
+      const sortedList = [];
 
-    },
-    deleteIG(igid) {
+      this.igList.forEach((e, index) => {
+        sortedList.push({
+          id: e.id,
+          position: index + 1
+        });
+      });
 
-    },
-    editIG() {
+      await HTTP.post('/api/ingredientgroups/positions', sortedList);
 
-    },
-    loadI(igid) {
-      this.selectedIG = this.findElement(this.ingredientGroups, "id", igid);
-      this.$store.dispatch('getIngredients', igid);
-    },
-    updateIGPositions() {
-
+      this.getRecipe();
     },
     createI() {
-
+      this.$modal.show('add-ingredient-modal');
     },
-    updateI() {
+    async updateIPositions() {
+      const sortedList = [];
 
-    },
-    deleteI() {
+      this.iList.forEach((e, index) => {
+        sortedList.push({
+          id: e.id,
+          position: index + 1
+        });
+      });
 
-    },
-    editI() {
+      await HTTP.post('/api/ingredients/positions', sortedList);
 
-    },
-    updateIPositions() {
-
+      this.getRecipe();
     },
     createStep() {
-
+      this.$modal.show('add-step-modal');
     },
-    updateStep() {
+    async updateStepPositions() {
+      const sortedList = [];
 
-    },
-    deleteStep() {
+      this.stepsList.forEach((e, index) => {
+        sortedList.push({
+          id: e.id,
+          position: index + 1
+        });
+      });
 
-    },
-    editStep() {
+      await HTTP.post('/api/steps/positions', sortedList);
 
-    },
-    updateStepPositions() {
-
+      this.getRecipe();
     },
     saveRecipe() {
-      console.log('save');
-
-      // this.getRecipe();
+      HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);
     },
   },
   async created() {
-    this.getRecipe();
+    await this.$store.dispatch('getRecipe', this.id);
+    this.recipe = this.recipes[0];
+    await this.$store.dispatch('getIngredientGroups', this.recipe.id);
+    this.igList = this.ingredientGroups;
+    if (this.ingredientGroups.length > 0) await this.$store.dispatch('setIG', this.ingredientGroups[0]);
+    await this.$store.dispatch('getIngredients', this.selectedIG.id);
+    this.iList = this.ingredients;
+    await this.$store.dispatch('getSteps', this.recipe.id);
+    this.stepsList = this.steps;
 
     const response = await HTTP.get('api/recipecategories');
     this.categories = response.data;
