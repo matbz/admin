@@ -676,7 +676,6 @@ hr { flex-basis: 100%; height: 0; margin: 0; border: 0; }
 
 .pure-table > tbody > tr:hover{
   background: rgb(218, 235, 240);
-  font-weight: 700;
 }
 
 .dhandle {

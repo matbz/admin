@@ -16,6 +16,16 @@ class Ingredient {
     this.recipe_id = this.recipe_id;
   }
 
+  async backup() {
+    try {
+      const query = SQL`select * from ingredientgroup`;
+
+      return await db.manyOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async all(id) {
     try {
       const query = SQL`select * from ingredientgroup where recipe_id = ${id} order by position`;
@@ -106,6 +116,27 @@ class Ingredient {
         console.log(error);
     }
   }
+
+  async restore(data) {
+    const {
+      id,
+      name,
+      position,
+      recipe_id
+    } = data;
+
+    try {
+      const query = SQL`
+      insert into ingredientgroup
+      (id, name, position, recipe_id)
+      values
+      (${id}, ${name}, ${position}, ${recipe_id})
+      `;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }    
 }
 
 module.exports = Ingredient;

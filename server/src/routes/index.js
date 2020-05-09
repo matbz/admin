@@ -21,6 +21,14 @@ const path = require('path');
 
 module.exports = (app) => {
   // Recipes
+  app.get('/api/recipes/backup',
+    RecipeController.backup);
+
+  app.post('/api/recipes/restore',
+    authRequired,
+    upload.single('backupFile'),
+    RecipeController.restore);
+
   app.get('/api/recipes',
     authRequired,
     RecipeController.index);

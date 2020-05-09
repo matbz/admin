@@ -74,11 +74,14 @@ const recipe = {
         throw new Error(error);
       }
     },
+    async setIG({ commit }, data) {
+      commit(SET_IG, data);
+    },
     refresh({ commit }) {
       commit(ADD_TO_REFRESH);
     },
-    async setIG({ commit }, data) {
-      commit(SET_IG, data);
+    backup() {
+      window.open(process.env.API_URL + `/api/recipes/backup`);
     }
   },
   getters: {

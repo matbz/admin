@@ -16,6 +16,16 @@ class Step {
     this.recipe_id = data.recipe_id;
   }
 
+  async backup() {
+    try {
+      const query = SQL`select * from recipestep`;
+
+      return await db.manyOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async all(id) {
     try {
 
@@ -107,6 +117,27 @@ class Step {
         console.log(error);
     }
   }
+
+  async restore(data) {
+    const {
+      id,
+      step,
+      position,
+      recipe_id
+    } = data;
+
+    try {
+      const query = SQL`
+      insert into recipestep
+      (id, step, position, recipe_id)
+      values
+      (${id}, ${step}, ${position}, ${recipe_id})
+      `;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }    
 }
 
 module.exports = Step;

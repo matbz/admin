@@ -19,6 +19,16 @@ class Ingredient {
     this.ingredientgroup_id = this.ingredientgroup_id;
   }
 
+  async backup() {
+    try {
+      const query = SQL`select * from ingredient`;
+
+      return await db.manyOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async all(id) {
     try {
       const query = SQL`
@@ -120,6 +130,30 @@ class Ingredient {
         console.log(error);
     }
   }
+
+  async restore(data) {
+    const {
+      id,
+      name,
+      quantity,
+      measurement,
+      identifier,
+      position,
+      ingredientgroup_id
+    } = data;
+
+    try {
+      const query = SQL`
+      insert into ingredient
+      (id, name, quantity, measurement, identifier, position, ingredientgroup_id)
+      values
+      (${id}, ${name}, ${quantity}, ${measurement}, ${identifier}, ${position}, ${ingredientgroup_id})
+      `;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }  
 }
 
 module.exports = Ingredient;

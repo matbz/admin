@@ -244,7 +244,7 @@
   position: absolute;
   left: 39em;
   width: 14em;
-  z-index: 999;
+  z-index: 499;
   top: 0.5em;
 
 }
@@ -258,10 +258,6 @@
   height: 34px!important;
   font-size: 1.3em!important;
   font-family: 'Lato',Arial,'Helvetica Neue',Helvetica,sans-serif!important;
-}
-
-.el-select-dropdown__item.selected {
-
 }
 
 .selected {

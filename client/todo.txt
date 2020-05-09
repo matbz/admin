@@ -1,22 +1,14 @@
-MOBILE -> FIX Schritt Counter
-
 Client
 
-Backup
-
 Tag UI
-Tag anlegen
-Tag ändern
-Tag löschen
-
-Recipe_Tag hinzufügen/löschen ->  Multiselect
-
+  Tag anlegen
+  Tag ändern
+  Tag löschen
+Recipe->Tag hinzufügen/löschen ->  Multiselect
 Bilder Support
 
 
 Server
-
-Backup
 
 Tags
   All
@@ -24,16 +16,18 @@ Tags
   Update
   Delete (before: delete in all recipes)
 Recipe_Tag
-  GetByRecipeid (join tag names)
+  All (join tag names)
   Create
   Delete
+Bilder Support
 
 
 Mobile
 
+  Bilder Support
+  Kein Rezept View
   Search inkl. Tags
     Searchfield (man kann tags suchen)
     Tags rechts oben im header-> TagView (global - init bei Search->created())
     List
 
-Bilder Support

@@ -238,7 +238,11 @@ export default {
     this.recipe = this.recipes[0];
     await this.$store.dispatch('getIngredientGroups', this.recipe.id);
     this.igList = this.ingredientGroups;
-    if (this.ingredientGroups.length > 0) await this.$store.dispatch('setIG', this.ingredientGroups[0]);
+    if (this.ingredientGroups.length > 0) {
+      await this.$store.dispatch('setIG', this.ingredientGroups[0]);
+    } else {
+      await this.$store.dispatch('setIG', {});
+    }
     await this.$store.dispatch('getIngredients', this.selectedIG.id);
     this.iList = this.ingredients;
     await this.$store.dispatch('getSteps', this.recipe.id);

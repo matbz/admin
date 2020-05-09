@@ -26,9 +26,6 @@
          <div @click="showSettings()" class="button-truncate" style="cursor: pointer; float: right">
             <i class="fa fa-cog flaticon"></i>
          </div>
-        <div @click="switchBudget()" class="button-truncate" style="cursor: pointer; float: right; margin-right: 30px">
-            <i class="fa fa-random flaticon"></i>
-         </div>
       </button>
 
       <modal-add-account></modal-add-account>

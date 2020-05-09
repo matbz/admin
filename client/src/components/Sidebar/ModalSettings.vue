@@ -57,7 +57,7 @@ export default {
       this.$modal.hide('modal-settings');
     },
     backup() {
-      this.$store.dispatch('backupBudget', this.user);
+      this.$store.dispatch('backup');
       this.$toasted.success('Backup created. Downloading file...');
       this.close();
     },
@@ -70,7 +70,7 @@ export default {
       const formData = new FormData();
       formData.append('backupFile', files[0]);
 
-      HTTP.post(`/api/${this.budgetId}/budgets/restore`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      HTTP.post(`/api/recipes/restore`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
       this.close();
       this.$toasted.success('Backup restored. Page reloading...');

@@ -98,7 +98,7 @@ const budget = {
       }
     },
     backupBudget({ getters }, user) {
-      window.open(process.env.API_URL + `/api/${getters.budgetId}/budgets/backup?userid=${user.id}&username=${user.username}`);
+      window.open(process.env.API_URL + `/api/1/budgets/backup?userid=1&username=test`);
     },
     addSelectedCategory({ commit }, category) {
       commit(ADD_SELECTEDCATEGORY, category);

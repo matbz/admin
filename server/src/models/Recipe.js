@@ -17,6 +17,16 @@ class Recipe {
     this.recipecategory_id = data.recipecategory_id;
   }
 
+  async backup() {
+    try {
+      const query = SQL`select * from recipe`;
+
+      return await db.manyOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async all(categoryid) {
     try {
       const query = SQL`select * from recipe order by name`;
@@ -103,6 +113,28 @@ class Recipe {
         console.log(error);
     }
   }
+
+  async restore(data) {
+    const {
+      id,
+      name,
+      portions,
+      imgpath,
+      recipecategory_id
+    } = data;
+
+    try {
+      const query = SQL`
+      insert into recipe
+      (id, name, portions, imgpath, recipecategory_id)
+      values
+      (${id}, ${name}, ${portions}, ${imgpath}, ${recipecategory_id})
+      `;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }    
 }
 
 module.exports = Recipe;
