@@ -168,7 +168,7 @@ module.exports = {
     try {
       const file = req.file;
       const contents = fs.readFileSync(file.path);
-      const data = JSON.parse(contents);
+      // const data = JSON.parse(contents);
 
       const recipe = new Recipe();
       const step = new Step();
@@ -177,65 +177,82 @@ module.exports = {
       const recipecategory = new RecipeCategory();
       const tag = new Tag();
       const recipetag = new RecipeTag();
-  
-
-      // Delete
-      await asyncForEach(data['recipe_tag'], async (e) => {
-        await recipetag.delete(e.id);
-      });
       
-      await asyncForEach(data['step'], async (e) => {
-        await step.delete(e.id);
+
+      const filename = 'test';
+      const filepath = './uploads/' + filename + '.jpg';
+
+      try {
+       fs.writeFile('./uploads/test.jpg', contents, (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        };
       });
+    } catch (err) {
+      res.status(500).json({
+       error: 'An error has occured trying to backup the recipes'
+      });
+    }
+
+
+      // // Delete
+      // await asyncForEach(data['recipe_tag'], async (e) => {
+      //   await recipetag.delete(e.id);
+      // });
       
-      await asyncForEach(data['ingredient'], async (e) => {
-        await ingredient.delete(e.id);
-      });
-
-      await asyncForEach(data['ingredientgroup'], async (e) => {
-        await ingredientgroup.delete(e.id);
-      });
-
-      await asyncForEach(data['tag'], async (e) => {
-        await tag.delete(e.id);
-      });
-
-      await asyncForEach(data['recipe'], async (e) => {
-        await recipe.delete(e.id);
-      });
-
-      await asyncForEach(data['recipecategory'], async (e) => {
-        await recipecategory.delete(e.id);
-      });
-
-      // Insert
-      await asyncForEach(data['recipecategory'], async (e) => {
-        await recipecategory.restore(e);
-      });
-
-      await asyncForEach(data['recipe'], async (e) => {
-        await recipe.restore(e);
-      });
-
-      await asyncForEach(data['tag'], async (e) => {
-        await tag.restore(e);
-      });      
-
-      await asyncForEach(data['recipe_tag'], async (e) => {
-        await recipetag.restore(e);
-      });
+      // await asyncForEach(data['step'], async (e) => {
+      //   await step.delete(e.id);
+      // });
       
-      await asyncForEach(data['step'], async (e) => {
-        await step.restore(e);
-      });
-      
-      await asyncForEach(data['ingredientgroup'], async (e) => {
-        await ingredientgroup.restore(e);
-      });
+      // await asyncForEach(data['ingredient'], async (e) => {
+      //   await ingredient.delete(e.id);
+      // });
 
-      await asyncForEach(data['ingredient'], async (e) => {
-        await ingredient.restore(e);
-      });
+      // await asyncForEach(data['ingredientgroup'], async (e) => {
+      //   await ingredientgroup.delete(e.id);
+      // });
+
+      // await asyncForEach(data['tag'], async (e) => {
+      //   await tag.delete(e.id);
+      // });
+
+      // await asyncForEach(data['recipe'], async (e) => {
+      //   await recipe.delete(e.id);
+      // });
+
+      // await asyncForEach(data['recipecategory'], async (e) => {
+      //   await recipecategory.delete(e.id);
+      // });
+
+      // // Insert
+      // await asyncForEach(data['recipecategory'], async (e) => {
+      //   await recipecategory.restore(e);
+      // });
+
+      // await asyncForEach(data['recipe'], async (e) => {
+      //   await recipe.restore(e);
+      // });
+
+      // await asyncForEach(data['tag'], async (e) => {
+      //   await tag.restore(e);
+      // });      
+
+      // await asyncForEach(data['recipe_tag'], async (e) => {
+      //   await recipetag.restore(e);
+      // });
+      
+      // await asyncForEach(data['step'], async (e) => {
+      //   await step.restore(e);
+      // });
+      
+      // await asyncForEach(data['ingredientgroup'], async (e) => {
+      //   await ingredientgroup.restore(e);
+      // });
+
+      // await asyncForEach(data['ingredient'], async (e) => {
+      //   await ingredient.restore(e);
+      // });
 
       fs.unlinkSync(file.path);
     } catch (err) {

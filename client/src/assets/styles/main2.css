@@ -681,3 +681,24 @@ hr { flex-basis: 100%; height: 0; margin: 0; border: 0; }
 .dhandle {
   cursor: pointer;
 }
+
+.cat {
+  color: white;
+  background: pink;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cat_content {
+  flex: 0 0 120px;
+}
+
+.cat_img {
+  filter: invert(100%) sepia(61%) saturate(2%) hue-rotate(340deg) brightness(110%) contrast(100%);
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
