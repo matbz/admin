@@ -269,6 +269,12 @@ export default {
       formData.append('imgFile', files[0]);
 
       HTTP.post(`/api/recipes/${this.id}/uploadimg`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+
+      this.$toasted.success('Image uploaded. Page reloading...');
+
+      setTimeout(() => {
+        location.reload();
+      }, 2000);      
     },
     saveRecipe() {
       HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);
