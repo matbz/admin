@@ -183,13 +183,13 @@ export default {
   },
   methods: {
     getImgsrc() {
-      let src = '';
+      const src = `https://admin.matbz.com/${this.id}.jpg`;
 
-      try {
-        src = require('../../../../server/public/' + this.id + '.jpg');
-      } catch (e) {
-        src = '';
-      }
+      // try {
+      //   src = require('./' + this.id + '.jpg');
+      // } catch (e) {
+      //   src = '';
+      // }
 
       return src;
     },
