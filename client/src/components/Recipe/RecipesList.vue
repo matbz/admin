@@ -59,11 +59,17 @@ export default {
       const recipe = {
         name: 'Rezeptname',
         portions: 4,
-        recipecategory_id: 2
+        recipecategory_id: 2,
+        imgpath: ''
       };
 
       await HTTP.post('/api/recipes', recipe);
       const response = await HTTP.get('api/recipe/max');
+
+      recipe.imgpath = `https://admin.matbz.com/${response.data.maxid}.jpg`;
+
+      await HTTP.put(`/api/recipes/${response.data.maxid}`, recipe);
+
       this.goToRecipe(response.data.maxid);
     },
     async deleteRecipe(id) {

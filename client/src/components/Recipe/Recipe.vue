@@ -274,7 +274,7 @@ export default {
 
       setTimeout(() => {
         location.reload();
-      }, 2000);      
+      }, 2000);
     },
     saveRecipe() {
       HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);
