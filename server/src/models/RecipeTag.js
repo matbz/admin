@@ -26,6 +26,16 @@ class RecipeTag {
     }
   }
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from recipe_tag`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async findByRecipeId(id) {
     try {
       const query = SQL`

@@ -118,6 +118,16 @@ class Step {
     }
   }
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from recipestep`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async restore(data) {
     const {
       id,

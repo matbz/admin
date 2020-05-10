@@ -163,7 +163,8 @@ export default {
       recipe: {},
       stepsList: [],
       igList: [],
-      iList: []
+      iList: [],
+      imgsrc: this.getImgsrc()
     };
   },
   computed: {
@@ -173,10 +174,7 @@ export default {
       'steps',
       'ingredients',
       'selectedIG'
-    ]),
-    imgsrc() {
-      return `https://admin.matbz.com/static/img/${this.recipe.id}.${this.recipe.imgpath}.jpg`;
-    }
+    ])
   },
   watch: {
     '$store.state.recipe.refresh': function () {
@@ -184,6 +182,17 @@ export default {
     }
   },
   methods: {
+    getImgsrc() {
+      let src = '';
+
+      try {
+        src = require('../../../../server/uploads/' + this.id + '.jpg');
+      } catch (e) {
+        src = '';
+      }
+
+      return src;
+    },
     findElement(arr, propName, propValue) {
       for (var i=0; i < arr.length; i++)
         if (arr[i][propName] == propValue)
@@ -259,9 +268,7 @@ export default {
       const formData = new FormData();
       formData.append('imgFile', files[0]);
 
-      HTTP.post(`/api/recipes/uploadimg`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-
-      location.reload();
+      HTTP.post(`/api/recipes/${this.id}/uploadimg`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     saveRecipe() {
       HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);

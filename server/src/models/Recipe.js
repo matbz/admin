@@ -114,6 +114,16 @@ class Recipe {
     }
   }
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from recipe`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async restore(data) {
     const {
       id,

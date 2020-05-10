@@ -48,6 +48,16 @@ class RecipeCategory {
     }
   }  
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from recipecategory`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+  
   async restore(data) {
     const {
       id,

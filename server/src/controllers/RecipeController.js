@@ -50,14 +50,19 @@ module.exports = {
     const recipe = new Recipe();
     const ingredientgroup = new IngredientGroup();
 
-    try {
+    try {   
       await recipe.create(req.body);
 
       const results = await recipe.getMaxId();
 
       await ingredientgroup.create({'name': 'Basis', 'recipe_id': results.maxid })
 
+      fs.copyFile('./uploads/placeholder.jpg', './uploads/' + results.maxid + '.jpg', (err) => {
+        if (err) throw err;
+      });
+
       res.json(req.body);
+
     } catch (err) {
       res.status(500).json({
        error: 'An error has occured trying to create an goal'
@@ -179,33 +184,19 @@ module.exports = {
       const recipetag = new RecipeTag();
 
       // Delete
-      await asyncForEach(data['recipe_tag'], async (e) => {
-        await recipetag.delete(e.id);
-      });
+      await recipetag.deleteAll();
       
-      await asyncForEach(data['step'], async (e) => {
-        await step.delete(e.id);
-      });
+      await step.deleteAll();
       
-      await asyncForEach(data['ingredient'], async (e) => {
-        await ingredient.delete(e.id);
-      });
+      await ingredient.deleteAll();
 
-      await asyncForEach(data['ingredientgroup'], async (e) => {
-        await ingredientgroup.delete(e.id);
-      });
+      await ingredientgroup.deleteAll();
 
-      await asyncForEach(data['tag'], async (e) => {
-        await tag.delete(e.id);
-      });
+      await tag.deleteAll();
 
-      await asyncForEach(data['recipe'], async (e) => {
-        await recipe.delete(e.id);
-      });
+      await recipe.deleteAll();
 
-      await asyncForEach(data['recipecategory'], async (e) => {
-        await recipecategory.delete(e.id);
-      });
+      await recipecategory.deleteAll();
 
       // Insert
       await asyncForEach(data['recipecategory'], async (e) => {
@@ -247,12 +238,9 @@ module.exports = {
     try {
       const file = req.file;
       const contents = fs.readFileSync(file.path);
-      const filename = 'test';
-      const filepath = './uploads/' + filename + '.jpg';
+      const filepath = './uploads/' + req.params.id + '.jpg';
 
-      console.log('test');
-
-       fs.writeFile('./uploads/test.jpg', contents, (err) => {
+      fs.writeFile(filepath, contents, (err) => {
         if (err) {
             console.error(err);
             return;

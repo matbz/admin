@@ -1,24 +1,13 @@
-Client
-
-Bilder Support
-
-Server
-
-Fix Multer Issue
-Bilder Support
-Search
-
-
 Mobile
 
   Speed optimieren (preload everything in routebeforeenter)
   Change Categories Seed
   New Layout
-    Header: #f4f4f4 oder #eeebed
-    Schrift: #1e1d32 oder #383745
-    Border über Symbole: #e8e8e8 oder #f6f6f6
-    Symbole: #afafaf oder #cdcdcd oder #c1c1c6 oder #b4b4b4
     Colors
+      Header: #f4f4f4 oder #eeebed
+      Schrift: #1e1d32 oder #383745
+      Border über Symbole: #e8e8e8 oder #f6f6f6
+      Symbole: #afafaf oder #cdcdcd oder #c1c1c6 oder #b4b4b4    
     Bilder Support
     Kein Rezept View
   Search

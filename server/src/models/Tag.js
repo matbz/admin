@@ -86,6 +86,16 @@ class Tag {
     }
   }
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from tag`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async restore(data) {
     const {
       id,

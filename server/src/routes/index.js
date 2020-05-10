@@ -16,9 +16,7 @@ const authRequired = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const multer  = require('multer');
-const upload = multer({ dest: 'uploads/backup' });
-const multerImg  = require('multer');
-const uploadImg = multerImg({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/' });
 const path = require('path');
 
 module.exports = (app) => {
@@ -26,15 +24,15 @@ module.exports = (app) => {
   app.get('/api/recipes/backup',
     RecipeController.backup);
 
-  app.post('/api/recipes/uploadimg',
+  app.post('/api/recipes/:id/uploadimg',
     authRequired,
-    uploadImg.single('imgFile'),
+    upload.single('imgFile'),
     RecipeController.uploadimg);
 
-  // app.post('/api/recipes/restore',
-  //   authRequired,
-  //   upload.single('backupFile'),
-  //   RecipeController.restore);
+  app.post('/api/recipes/restore',
+    authRequired,
+    upload.single('backupFile'),
+    RecipeController.restore);
 
   app.get('/api/recipes',
     authRequired,
@@ -87,6 +85,14 @@ module.exports = (app) => {
   app.get('/api/recipes/:id/ingredientgroups',
     authRequired,
     IngredientGroupController.index);
+
+  app.get('/api/ingredientgroups/:id',
+    authRequired,
+    IngredientGroupController.get);
+
+  app.get('/api/ingredientgroupsa/max',
+    authRequired,
+    IngredientGroupController.getMaxId);
 
   app.post('/api/ingredientgroups',
     authRequired,

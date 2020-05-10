@@ -60,5 +60,8 @@ module.exports = {
     'vars-on-top': 0,
     'curly': 0,
     'indent': 0,
+    'global-require': 0,
+    'import/no-dynamic-require': 0,
+    'no-useless-concat': 0
   }
 }

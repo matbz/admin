@@ -65,7 +65,30 @@ module.exports = {
        error: 'An error has occured trying to delete an categoryGroup'
       });
     }
-  }
+  },
+  async get(req, res) {
+    const ingredientGroup = new IngredientGroup();
+    try {
+      const results = await ingredientGroup.findById(req.params.id);
+
+      res.json(results);
+    } catch (err) {
+      res.status(500).json({
+       error: 'An error has occured trying to get all categories'
+      });
+    }
+  },
+  async getMaxId(req, res) {
+    const ingredientGroup = new IngredientGroup();
+    try {
+      const results = await ingredientGroup.getMaxId();
+      res.json(results);
+    } catch (err) {
+      res.status(500).json({
+       error: 'An error has occured trying to get all categories'
+      });
+    }
+  }  
 };
 
 async function asyncForEach(array, callback) {

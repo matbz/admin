@@ -11,12 +11,12 @@
               Rezepte
             </a>
           </router-link>
-          <router-link :to="{ name: 'tags' }" tag="li" exact>
+          <!-- <router-link :to="{ name: 'tags' }" tag="li" exact>
             <a>
               <i class=" fa fa-tags"></i>
               Tags
             </a>
-          </router-link>
+          </router-link> -->
         </ul>
       </div>
       <button class="button-prefs button-prefs-user button">

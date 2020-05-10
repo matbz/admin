@@ -55,6 +55,13 @@ export default {
     async save() {
       try {
         await HTTP.post('api/ingredientgroups', this.data);
+        const rep = await HTTP.get('api/ingredientgroupsa/max');
+        console.log(rep);
+        const igid = rep.data.maxid;
+        const response = await HTTP.get(`api/ingredientgroups/${igid}`);
+        console.log(response);
+        await this.$store.dispatch('setIG', response.data);
+
         this.$store.dispatch('refresh');
         this.close();
       } catch (error) {

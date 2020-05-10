@@ -49,6 +49,26 @@ class Ingredient {
     }
   }
 
+  async findById(id) {
+    try {
+      const query = SQL`select * from ingredientgroup where id = ${id}`;
+
+      return await db.oneOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  async getMaxId() {
+    try {
+      const query = SQL`select max(id) as maxid from ingredientgroup`;
+
+      return await db.oneOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async create(data) {
     const {
       name,
@@ -111,6 +131,16 @@ class Ingredient {
       delete from ingredientgroup
       where id = ${id}
       `;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from ingredientgroup`;
       return await db.none(query);
     } catch (error) {
         console.log(error);

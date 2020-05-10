@@ -131,6 +131,16 @@ class Ingredient {
     }
   }
 
+  async deleteAll() {
+    try {
+      const query = SQL`
+      delete from ingredient`;
+      return await db.none(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async restore(data) {
     const {
       id,
