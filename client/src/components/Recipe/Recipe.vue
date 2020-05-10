@@ -186,7 +186,7 @@ export default {
       let src = '';
 
       try {
-        src = require('../../../../server/uploads/' + this.id + '.jpg');
+        src = require('../../../../server/public/' + this.id + '.jpg');
       } catch (e) {
         src = '';
       }

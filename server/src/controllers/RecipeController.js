@@ -57,7 +57,7 @@ module.exports = {
 
       await ingredientgroup.create({'name': 'Basis', 'recipe_id': results.maxid })
 
-      fs.copyFile('./uploads/placeholder.jpg', './uploads/' + results.maxid + '.jpg', (err) => {
+      fs.copyFile('./public/placeholder.jpg', './public/' + results.maxid + '.jpg', (err) => {
         if (err) throw err;
       });
 
@@ -238,7 +238,7 @@ module.exports = {
     try {
       const file = req.file;
       const contents = fs.readFileSync(file.path);
-      const filepath = './uploads/' + req.params.id + '.jpg';
+      const filepath = './public/' + req.params.id + '.jpg';
 
       fs.writeFile(filepath, contents, (err) => {
         if (err) {
