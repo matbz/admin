@@ -16,7 +16,9 @@ const authRequired = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const multer  = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/backup' });
+const multerImg  = require('multer');
+const uploadImg = multerImg({ dest: 'uploads/' });
 const path = require('path');
 
 module.exports = (app) => {
@@ -24,10 +26,15 @@ module.exports = (app) => {
   app.get('/api/recipes/backup',
     RecipeController.backup);
 
-  app.post('/api/recipes/restore',
+  app.post('/api/recipes/uploadimg',
     authRequired,
-    upload.single('backupFile'),
-    RecipeController.restore);
+    uploadImg.single('imgFile'),
+    RecipeController.uploadimg);
+
+  // app.post('/api/recipes/restore',
+  //   authRequired,
+  //   upload.single('backupFile'),
+  //   RecipeController.restore);
 
   app.get('/api/recipes',
     authRequired,

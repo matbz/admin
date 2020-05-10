@@ -45,7 +45,7 @@
                 v-model.lazy="recipe.imgpath"
                 @change="saveRecipe()">
               <div style="margin-top: 1em">
-                <img src="https://admin.matbz.com/static/img/test.95ee152.jpg" width="100" height="100">
+                <img :src="imgsrc" width="100" height="100">
                 <label class="button button-cancel x-14 btn" for="file">
                   <i class="fa fa-upload"></i> Upload
                 </label>
@@ -139,7 +139,6 @@ import ModalAddStep from './ModalAddStep';
 import ModalAddGroup from './ModalAddGroup';
 import ModalAddIngredient from './ModalAddIngredient';
 
-
 export default {
   components: {
     draggable,
@@ -175,6 +174,9 @@ export default {
       'ingredients',
       'selectedIG'
     ]),
+    imgsrc() {
+      return `https://admin.matbz.com/static/img/${this.recipe.id}.${this.recipe.imgpath}.jpg`;
+    }
   },
   watch: {
     '$store.state.recipe.refresh': function () {
@@ -255,16 +257,11 @@ export default {
       }
 
       const formData = new FormData();
-      formData.append('backupFile', files[0]);
+      formData.append('imgFile', files[0]);
 
-      HTTP.post(`/api/recipes/restore`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      HTTP.post(`/api/recipes/uploadimg`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
-      this.close();
-      this.$toasted.success('Backup restored. Page reloading...');
-
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
+      location.reload();
     },
     saveRecipe() {
       HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);
