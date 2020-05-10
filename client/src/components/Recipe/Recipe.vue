@@ -33,6 +33,25 @@
               </el-option>
               </el-select>
             </span>
+            <div style="margin-top: 1em;">
+              <form enctype="multipart/form-data">
+                <input class="inputfile" ref="fileinput" name="file" id="file" type="file" @change="onFileChange">
+              </form>
+              <span>Img Path:</span>
+              <input
+                type="text"
+                class="rinput"
+                style="width: 10em"
+                v-model.lazy="recipe.imgpath"
+                @change="saveRecipe()">
+              <div style="margin-top: 1em">
+                <img src="https://admin.matbz.com/static/img/test.95ee152.jpg" width="100" height="100">
+                <label class="button button-cancel x-14 btn" for="file">
+                  <i class="fa fa-upload"></i> Upload
+                </label>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -228,6 +247,24 @@ export default {
       await HTTP.post('/api/steps/positions', sortedList);
 
       this.getRecipe();
+    },
+    async onFileChange(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('backupFile', files[0]);
+
+      HTTP.post(`/api/recipes/restore`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+
+      this.close();
+      this.$toasted.success('Backup restored. Page reloading...');
+
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     },
     saveRecipe() {
       HTTP.put(`api/recipes/${this.recipe.id}`, this.recipe);

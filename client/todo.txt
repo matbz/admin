@@ -1,33 +1,26 @@
 Client
 
-Tag UI
-  Tag anlegen
-  Tag ändern
-  Tag löschen
-Recipe->Tag hinzufügen/löschen ->  Multiselect
 Bilder Support
-
 
 Server
 
-Tags
-  All
-  Create
-  Update
-  Delete (before: delete in all recipes)
-Recipe_Tag
-  All (join tag names)
-  Create
-  Delete
 Bilder Support
+Search
 
 
 Mobile
 
-  Bilder Support
-  Kein Rezept View
-  Search inkl. Tags
-    Searchfield (man kann tags suchen)
-    Tags rechts oben im header-> TagView (global - init bei Search->created())
-    List
+  Speed optimieren (preload everything in routebeforeenter)
+  Change Categories Seed
+  New Layout
+    Header: #f4f4f4 oder #eeebed
+    Schrift: #1e1d32 oder #383745
+    Border über Symbole: #e8e8e8 oder #f6f6f6
+    Symbole: #afafaf oder #cdcdcd oder #c1c1c6 oder #b4b4b4
+    Colors
+    Bilder Support
+    Kein Rezept View
+  Search
+  
+  
 
