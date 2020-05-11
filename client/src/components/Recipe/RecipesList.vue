@@ -59,7 +59,7 @@ export default {
       const recipe = {
         name: 'Rezeptname',
         portions: 4,
-        recipecategory_id: 2,
+        recipecategory_id: 6,
         imgpath: ''
       };
 
