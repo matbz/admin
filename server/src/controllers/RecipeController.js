@@ -6,8 +6,6 @@ const Step = require('../models/Step');
 const IngredientGroup = require('../models/IngredientGroup');
 const Ingredient = require('../models/Ingredient');
 const RecipeCategory = require('../models/RecipeCategory');
-const Tag = require('../models/Tag');
-const RecipeTag = require('../models/RecipeTag');
 
 module.exports = {
   async index(req, res) {
@@ -50,7 +48,7 @@ module.exports = {
     const recipe = new Recipe();
     const ingredientgroup = new IngredientGroup();
 
-    try {   
+    try {
       await recipe.create(req.body);
 
       const results = await recipe.getMaxId();
@@ -85,7 +83,6 @@ module.exports = {
     const ingredientgroup = new IngredientGroup();
     const ingredient = new Ingredient();
     const step = new Step();
-    const recipetag = new RecipeTag();
 
     let ingredients = [];
 
@@ -108,12 +105,6 @@ module.exports = {
         await step.delete(s.id);
        })
 
-       const tags = await recipetag.findByRecipeId(req.params.id);
-
-       await asyncForEach(tags, async (t) => {
-         await recipetag.delete(t.id);
-        })
-
       await recipe.delete(req.params.id);
       res.json(req.body);
     } catch (err) {
@@ -133,8 +124,6 @@ module.exports = {
     const ingredientgroup = new IngredientGroup();
     const ingredient = new Ingredient();
     const recipecategory = new RecipeCategory();
-    const tag = new Tag();
-    const recipetag = new RecipeTag();
 
     try {
       data['recipe'] = await recipe.backup();
@@ -142,8 +131,6 @@ module.exports = {
       data['ingredientgroup'] = await ingredientgroup.backup();
       data['ingredient'] = await ingredient.backup();
       data['recipecategory'] = await recipecategory.backup();
-      data['tag'] = await tag.backup();
-      data['recipe_tag'] = await recipetag.backup();
 
       await asyncForEach(data['ingredient'], async (e) => {
         e.quantity = parseFloat(e.quantity);
@@ -180,19 +167,13 @@ module.exports = {
       const ingredientgroup = new IngredientGroup();
       const ingredient = new Ingredient();
       const recipecategory = new RecipeCategory();
-      const tag = new Tag();
-      const recipetag = new RecipeTag();
 
       // Delete
-      await recipetag.deleteAll();
-      
       await step.deleteAll();
-      
+
       await ingredient.deleteAll();
 
       await ingredientgroup.deleteAll();
-
-      await tag.deleteAll();
 
       await recipe.deleteAll();
 
@@ -207,18 +188,10 @@ module.exports = {
         await recipe.restore(e);
       });
 
-      await asyncForEach(data['tag'], async (e) => {
-        await tag.restore(e);
-      });      
-
-      await asyncForEach(data['recipe_tag'], async (e) => {
-        await recipetag.restore(e);
-      });
-      
       await asyncForEach(data['step'], async (e) => {
         await step.restore(e);
       });
-      
+
       await asyncForEach(data['ingredientgroup'], async (e) => {
         await ingredientgroup.restore(e);
       });
@@ -253,7 +226,7 @@ module.exports = {
        error: 'An error has occured trying to upload img.'
       });
     }
-  }  
+  }
 };
 
 async function asyncForEach(array, callback) {

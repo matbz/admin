@@ -31,7 +31,7 @@ html,body {
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 260px;
+    width: 13%;
     height: 100%;
     z-index: 999
 }
@@ -42,7 +42,7 @@ html,body {
     top: 0;
     right: 0;
     bottom: 0;
-    left: 260px;
+    left: 13%;
 }
 
 @media (max-width: 1100px) {
@@ -5211,7 +5211,7 @@ select {
     bottom: 0;
     font-size: 1rem;
     padding: .6rem .5rem;
-    width: 260px;
+    width: 13%;
 }
 
 .button-link {
