@@ -83,6 +83,8 @@ export default {
         imgpath: ''
       };
 
+      if (this.gcatid > 0) recipe.recipecategory_id = this.gcatid;
+
       await HTTP.post('/api/recipes', recipe);
       const response = await HTTP.get('api/recipe/max');
 
