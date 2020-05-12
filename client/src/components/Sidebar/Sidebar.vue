@@ -1,7 +1,7 @@
 <template>
    <nav class="ynab-u sidebar">
       <div class="sidebar-contents">
-        <button class="button button-prefs">
+        <button class="button button-prefs" @click="goToRecipes()">
             Administration
         </button>
         <ul class="nav-main">
@@ -71,6 +71,9 @@ export default {
     },
     goToRecentBudget() {
       this.$router.push({ name: 'budget' });
+    },
+    goToRecipes() {
+      this.$router.push({ name: 'recipes' });
     },
     addAccount() {
       this.$modal.show('add-account-modal');

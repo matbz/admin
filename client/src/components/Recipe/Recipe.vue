@@ -37,16 +37,16 @@
               <form enctype="multipart/form-data">
                 <input class="inputfile" ref="fileinput" name="file" id="file" type="file" @change="onFileChange">
               </form>
-              <span>Img Path:</span>
-              <input
+              <!-- <input
                 type="text"
                 class="rinput"
-                style="width: 10em"
+                style="width: 18.5em"
                 v-model.lazy="recipe.imgpath"
-                @change="saveRecipe()">
+                @change="saveRecipe()"> -->
+              <span>Bild:</span>
               <div style="margin-top: 1em">
                 <img :src="imgsrc" width="100" height="100">
-                <label class="button button-cancel x-14 btn" for="file">
+                <label style="margin: -2.7em 0 0 -3.6em; position: absolute" class="button button-cancel x-14 btn" for="file">
                   <i class="fa fa-upload"></i> Upload
                 </label>
               </div>
@@ -127,7 +127,6 @@
 </template>
 
 <script>
-// import store from '@/store';
 import { mapGetters } from 'vuex';
 import { HTTP } from '@/common/utilities';
 import draggable from 'vuedraggable';
@@ -153,9 +152,6 @@ export default {
   props: [
     'id'
   ],
-  // beforeRouteEnter(to, from, next) {
-  //   store.dispatch('getRecipe', 2).then(res => next());
-  // },
   data() {
     return {
       selectOptionsCategory: [],
@@ -184,13 +180,6 @@ export default {
   methods: {
     getImgsrc() {
       const src = `https://admin.matbz.com/${this.id}.jpg`;
-
-      // try {
-      //   src = require('./' + this.id + '.jpg');
-      // } catch (e) {
-      //   src = '';
-      // }
-
       return src;
     },
     findElement(arr, propName, propValue) {

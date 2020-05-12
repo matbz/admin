@@ -9,6 +9,7 @@ const SET_STEPS = 'SET_STEPS';
 const SET_INGREDIENTGROUPS = 'SET_INGREDIENTGROUPS';
 const SET_INGREDIENTS = 'SET_INGREDIENTS';
 const SET_IG = 'SET_IG';
+const SET_CATID = 'SET_CATID';
 const ADD_TO_REFRESH = 'ADD_TO_REFRESH';
 
 const recipe = {
@@ -19,7 +20,8 @@ const recipe = {
     ingredientGroups: [],
     ingredients: [],
     refresh: 0,
-    selectedIG: {}
+    selectedIG: {},
+    gcatid: 0
   },
   mutations: {
     SET_RECIPE(state, data) {
@@ -36,6 +38,9 @@ const recipe = {
     },
     SET_IG(state, data) {
       state.selectedIG = data;
+    },
+    SET_CATID(state, data) {
+      state.gcatid = data;
     },
     ADD_TO_REFRESH(state, data) {
       state.refresh++;
@@ -77,6 +82,9 @@ const recipe = {
     async setIG({ commit }, data) {
       commit(SET_IG, data);
     },
+    setCat({ commit }, data) {
+      commit(SET_CATID, data);
+    },
     refresh({ commit }) {
       commit(ADD_TO_REFRESH);
     },
@@ -102,6 +110,9 @@ const recipe = {
     },
     selectedIG(state) {
       return state.selectedIG;
+    },
+    gcatid(state) {
+      return state.gcatid;
     }
   }
 };

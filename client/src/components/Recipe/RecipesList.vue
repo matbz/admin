@@ -5,7 +5,21 @@
       <div class="pure-g add-list">
         <div style="width: 100%; height: 100%">
           <div class="turnover-group">
-            <button title="Neues Rezept anlegen" class="button" @click="createRecipe()">Neues Rezept anlegen</button>
+            <span>Kategorie:
+                <el-select
+                  v-model="catid"
+                  clearable
+                  class="s-rcategories2 rinput"
+                  @change="setCat">
+                <el-option
+                v-for="item in selectOptionsCategory"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+              </el-select>
+            </span>            
+            <button style="margin-left:18em" title="Neues Rezept anlegen" class="button" @click="createRecipe()">Neues Rezept anlegen</button>
           </div>
         </div>
       </div>
@@ -43,17 +57,23 @@ export default {
   ],
   data() {
     return {
-      recipes: {}
+      recipes: {},
+      catid: null,
+      selectOptionsCategory: []
     };
   },
   computed: {
     ...mapGetters([
-
+      'gcatid'
     ])
   },
   methods: {
     goToRecipe(id) {
       this.$router.push({ name: 'recipe', params: { id: id } });
+    },
+    setCat() {
+      this.$store.dispatch('setCat', this.catid);
+      this.getRecipes();
     },
     async createRecipe() {
       const recipe = {
@@ -77,7 +97,13 @@ export default {
       this.getRecipes();
     },
     async getRecipes() {
-      const response = await HTTP.get('/api/recipes');
+      let response = null;
+
+      if (this.gcatid > 0) {
+        response = await HTTP.get(`/api/irecipes/${this.gcatid}`);
+      } else {
+        response = await HTTP.get('/api/recipes');
+      }
       this.recipes = response.data;
     },
     confirm(func, id) {
@@ -91,8 +117,20 @@ export default {
       });
      },
   },
-  created() {
+  async created() {
     this.getRecipes();
+
+    const response = await HTTP.get('api/recipecategories');
+    this.categories = response.data;
+
+    this.categories.forEach(e => {
+      this.selectOptionsCategory.push({
+        value: e.id,
+        label: e.name
+      });
+    });
+
+    if (this.gcatid > 0) this.catid = this.gcatid;
   },
 };
 </script>

@@ -243,10 +243,9 @@
 .s-rcategories {
   position: absolute;
   left: 39em;
-  width: 14em;
+  width: 15.5em;
   z-index: 499;
   top: 0.5em;
-
 }
 
 .el-input__inner {
@@ -262,4 +261,12 @@
 
 .selected {
   background-color: white!important;
+}
+
+.s-rcategories2 {
+  position: absolute;
+  left: 6.5em;
+  width: 15.5em;
+  z-index: 499;
+  top: 0.3em;
 }

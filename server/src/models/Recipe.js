@@ -47,6 +47,16 @@ class Recipe {
     }
   }
 
+  async findByCatid(id) {
+    try {
+      const query = SQL`select * from recipe where recipecategory_id = ${id}`;
+
+      return await db.manyOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }  
+
   async getMaxId() {
     try {
       const query = SQL`select max(id) as maxid from recipe`;
