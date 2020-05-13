@@ -72,6 +72,7 @@ export default {
       this.$router.push({ name: 'recipe', params: { id: id } });
     },
     setCat() {
+      localStorage.setItem('cat', this.catid);
       this.$store.dispatch('setCat', this.catid);
       this.getRecipes();
     },
@@ -131,8 +132,16 @@ export default {
         label: e.name
       });
     });
-
-    if (this.gcatid > 0) this.catid = this.gcatid;
+    if (this.gcatid > 0) {
+      this.catid = this.gcatid;
+    } else {
+      const lcat = localStorage.getItem('cat');
+      if (lcat > 0) {
+        this.$store.dispatch('setCat', Number(lcat));
+        this.catid = Number(lcat);
+        this.getRecipes();
+      }
+    }
   },
 };
 </script>
