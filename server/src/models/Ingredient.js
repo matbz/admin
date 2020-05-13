@@ -54,6 +54,16 @@ class Ingredient {
     }
   }
 
+  async getMaxPosition(id) {
+    try {
+      const query = SQL`select max(position) as maxpos from ingredient where ingredientgroup_id = ${id}`;
+
+      return await db.oneOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async create(data) {
     const {
       name,
@@ -63,12 +73,14 @@ class Ingredient {
       ingredientgroup_id
     } = data;
 
+    const response = await this.getMaxPosition(data.ingredientgroup_id);
+
     try {
       const query = SQL`
       insert into ingredient
-      (name, quantity, measurement, identifier, ingredientgroup_id)
+      (name, quantity, measurement, identifier, ingredientgroup_id, position)
       values
-      (${name}, ${quantity},${measurement},${identifier},${ingredientgroup_id})
+      (${name}, ${quantity},${measurement},${identifier},${ingredientgroup_id}, ${response.maxpos + 1})
       `;
       return await db.none(query);
     } catch (error) {
@@ -163,7 +175,7 @@ class Ingredient {
     } catch (error) {
         console.log(error);
     }
-  }  
+  }
 }
 
 module.exports = Ingredient;

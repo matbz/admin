@@ -8,7 +8,7 @@
     <td>
       <i class="fa fa-trash-o" style="margin-left: 1em" @click="confirm(deleteI)"></i>
     </td>
-  <modal-edit-ingredient :name="item.name" :dataex="item"></modal-edit-ingredient>
+  <modal-edit-ingredient :name="nameI" :dataex="item"></modal-edit-ingredient>
   </tr>
 </template>
 
@@ -23,9 +23,14 @@ export default {
   props: [
     'item'
   ],
+  computed: {
+    nameI() {
+      return `${this.item.id}igroup`;
+    }
+  },
   methods: {
     editI() {
-      this.$modal.show(this.item.name, this.item);
+      this.$modal.show(this.nameI, this.item);
     },
     async deleteI() {
       await HTTP.delete(`api/ingredients/${this.item.id}`);

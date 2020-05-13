@@ -5,7 +5,7 @@
     <td>
       <i class="fa fa-trash-o" style="margin-left: 1em" @click="confirm(deleteStep)"></i>
     </td>
-  <modal-edit-step :name="item.step" :dataex="item"></modal-edit-step>
+  <modal-edit-step :name="nameS" :dataex="item"></modal-edit-step>
   </tr>
 </template>
 
@@ -20,9 +20,14 @@ export default {
   props: [
     'item'
   ],
+  computed: {
+    nameS() {
+      return `${this.item.id}step`;
+    }
+  },
   methods: {
     editStep() {
-      this.$modal.show(this.item.step, this.item);
+      this.$modal.show(this.nameS, this.item);
     },
     async deleteStep() {
       await HTTP.delete(`api/steps/${this.item.id}`);

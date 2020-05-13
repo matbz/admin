@@ -50,18 +50,30 @@ class Step {
     }
   }
 
+  async getMaxPosition(id) {
+    try {
+      const query = SQL`select max(position) as maxpos from recipestep where recipe_id = ${id}`;
+
+      return await db.oneOrNone(query);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async create(data) {
     const {
       step,
       recipe_id,
     } = data;
 
+    const response = await this.getMaxPosition(data.recipe_id);
+
     try {
       const query = SQL`
       insert into recipestep
-      (step, recipe_id)
+      (step, recipe_id, position)
       values
-      (${step}, ${recipe_id})
+      (${step}, ${recipe_id}, ${response.maxpos + 1})
       `;
       return await db.none(query);
     } catch (error) {
@@ -147,7 +159,7 @@ class Step {
     } catch (error) {
         console.log(error);
     }
-  }    
+  }
 }
 
 module.exports = Step;

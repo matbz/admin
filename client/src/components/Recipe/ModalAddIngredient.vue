@@ -35,6 +35,15 @@
             Speichern
             <i class="fa fa-check-circle-o"></i>
           </button>
+          <button
+            type="submit"
+            class="button button-primary x-14"
+            @click="saveAndClose()"
+            style="float: right;margin-right: .4em"
+          >
+            Speichern/Beenden
+            <i class="fa fa-check-circle-o"></i>
+          </button>
       </li>
     </ul>
   </modal>
@@ -83,7 +92,24 @@ export default {
         this.data.ingredientgroup_id = this.selectedIG.id;
         this.data.quantity = parseFloat(this.data.quantity.replace(/,/g, "."));
         await HTTP.post('api/ingredients', this.data);
+
+        this.data = {
+          name: '',
+          quantity: '',
+          measurement: '',
+          identifier: ''
+        };
+
+        this.$refs.name.focus();
+
         this.$store.dispatch('refresh');
+      } catch (error) {
+        this.$toasted.error('Error');
+      }
+    },
+    async saveAndClose() {
+      try {
+        await this.save();
         this.close();
       } catch (error) {
         this.$toasted.error('Error');

@@ -57,6 +57,7 @@ export default {
     async save() {
       try {
         await HTTP.put(`api/ingredientgroups/${this.data.id}`, this.data);
+        await this.$store.dispatch('setIG', this.data);
         this.$store.dispatch('refresh');
         this.$modal.hide(this.name);
       } catch (error) {

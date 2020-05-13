@@ -8,7 +8,7 @@
     <td>
       <i class="fa fa-eye" @click="setIG()" style="margin-left: .6em"></i>
     </td>
-  <modal-edit-group :name="item.name" :dataex="item"></modal-edit-group>
+  <modal-edit-group :name="nameIG" :dataex="item"></modal-edit-group>
   </tr>
 </template>
 
@@ -28,6 +28,9 @@ export default {
     ...mapGetters([
       'selectedIG'
     ]),
+    nameIG() {
+      return `${this.item.id}group`;
+    }
   },
   methods: {
     async setIG() {
@@ -35,7 +38,7 @@ export default {
       this.$store.dispatch('refresh');
     },
     editIG() {
-      this.$modal.show(this.item.name, this.item);
+      this.$modal.show(this.nameIG, this.item);
     },
     async deleteIG() {
       await HTTP.delete(`api/ingredientgroups/${this.item.id}`);

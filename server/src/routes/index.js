@@ -44,7 +44,7 @@ module.exports = (app) => {
 
     app.get('/api/irecipes/:id',
     authRequired,
-    RecipeController.getByIG);    
+    RecipeController.getByIG);
 
     app.get('/api/recipe/max',
     authRequired,
