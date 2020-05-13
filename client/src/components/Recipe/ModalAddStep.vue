@@ -4,6 +4,7 @@
       <li>
           <label>Text</label>
           <textarea
+            @keydown.enter.exact.prevent
             style="height: 20em; line-height: 1.5em"
             v-model.trim="data.step" ref="step" class="field-long"></textarea>
 
