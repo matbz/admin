@@ -59,7 +59,7 @@ export default {
   methods: {
     opened() {
       this.data.quantityString = Number(this.dataex.quantity).toLocaleString();
-      this.$refs.name.focus();
+      this.$refs.quantity.focus();
     },
     close() {
       this.data = {

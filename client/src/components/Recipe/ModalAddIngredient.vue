@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     opened() {
-      this.$refs.name.focus();
+      this.$refs.quantity.focus();
     },
     close() {
       this.data = {
@@ -100,7 +100,7 @@ export default {
           identifier: ''
         };
 
-        this.$refs.name.focus();
+        this.$refs.quantity.focus();
 
         this.$store.dispatch('refresh');
       } catch (error) {
