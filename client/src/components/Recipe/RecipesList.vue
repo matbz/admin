@@ -18,8 +18,16 @@
                 :value="item.value">
               </el-option>
               </el-select>
-            </span>            
-            <button style="margin-left:18em" title="Neues Rezept anlegen" class="button" @click="createRecipe()">Neues Rezept anlegen</button>
+            </span>
+            <span style="margin-left:18em">Suche:
+              <input
+                type="text"
+                class="rinput"
+                style="width: 15em"
+                v-model="searchString"
+                @keyup="search()"
+              ></span>
+            <button style="margin-left:1em" title="Neues Rezept anlegen" class="button" @click="createRecipe()">Neues Rezept anlegen</button>
           </div>
         </div>
       </div>
@@ -32,7 +40,7 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="item in recipes" :key="item.id">
+            <tr v-for="item in recipeList" :key="item.id">
               <td @click="goToRecipe(item.id)" style="width: 25em; cursor: pointer">{{ item.name }}</td>
               <td>
                 <i class="fa fa-trash-o" style="margin-left: 1em" @click="confirm(deleteRecipe, item.id)"></i>
@@ -57,9 +65,11 @@ export default {
   ],
   data() {
     return {
-      recipes: {},
+      recipes: [],
       catid: null,
-      selectOptionsCategory: []
+      selectOptionsCategory: [],
+      searchString: '',
+      recipeList: [],
     };
   },
   computed: {
@@ -70,6 +80,25 @@ export default {
   methods: {
     goToRecipe(id) {
       this.$router.push({ name: 'recipe', params: { id: id } });
+    },
+    search() {
+      const foundRecipeIds = [];
+
+      if (this.searchString.length < 3) {
+        this.recipeList = this.recipes;
+        return;
+      }
+
+      const searchS = this.searchString.toLowerCase();
+      const recipesLower = this.recipes.map(e => {
+        return { id: e.id, name: e.name.toLowerCase() };
+      });
+
+      recipesLower.forEach(r => {
+        if (r.name.includes(searchS)) foundRecipeIds.push(r.id);
+      });
+
+      this.recipeList = this.recipes.filter(rec => foundRecipeIds.includes(rec.id));
     },
     setCat() {
       localStorage.setItem('cat', this.catid);
@@ -108,6 +137,7 @@ export default {
         response = await HTTP.get('/api/recipes');
       }
       this.recipes = response.data;
+      this.recipeList = response.data;
     },
     confirm(func, id) {
       this.$modal.show('dialog', {

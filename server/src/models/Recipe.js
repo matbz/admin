@@ -49,13 +49,13 @@ class Recipe {
 
   async findByCatid(id) {
     try {
-      const query = SQL`select * from recipe where recipecategory_id = ${id}`;
+      const query = SQL`select * from recipe where recipecategory_id = ${id} order by name`;
 
       return await db.manyOrNone(query);
     } catch (error) {
         console.log(error);
     }
-  }  
+  }
 
   async getMaxId() {
     try {
@@ -154,7 +154,7 @@ class Recipe {
     } catch (error) {
         console.log(error);
     }
-  }    
+  }
 }
 
 module.exports = Recipe;
