@@ -2,16 +2,16 @@
   <modal name="add-ingredient-modal" :width="400" height="auto" :pivot-y="0.3" @opened="opened">
     <ul class="form-style-1" @keyup.esc="close()" @keyup.enter="save()">
       <li>
-          <label>Name</label>
-          <input ref="name" type="text" class="field-long" v-model.trim="data.name"/>
-      </li>
-      <li>
           <label>Menge</label>
           <input ref="quantity" type="text" class="field-long" v-model.trim="data.quantity"/>
       </li>
       <li>
           <label>Mengeneinheit</label>
           <input ref="measurement" type="text" class="field-long" v-model.trim="data.measurement"/>
+      </li>
+      <li>
+          <label>Name</label>
+          <input ref="name" type="text" class="field-long" v-model.trim="data.name"/>
       </li>
       <li>
           <label>Platzhalter</label>
